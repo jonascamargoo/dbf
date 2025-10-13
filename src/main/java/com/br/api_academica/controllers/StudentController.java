@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/students")
@@ -39,19 +40,19 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentDTO> getStudentById(@PathVariable Long id) {
+    public ResponseEntity<StudentDTO> getStudentById(@PathVariable UUID id) {
         StudentDTO student = studentService.getStudentById(id);
         return ResponseEntity.ok(student);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentDTO> updateStudent(@PathVariable Long id, @RequestBody StudentDTO studentDetailsDTO) {
+    public ResponseEntity<StudentDTO> updateStudent(@PathVariable UUID id, @RequestBody StudentDTO studentDetailsDTO) {
         StudentDTO updatedStudent = studentService.updateStudent(id, studentDetailsDTO);
         return ResponseEntity.ok(updatedStudent);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStudent(@PathVariable UUID id) {
         studentService.deleteStudent(id);
         return ResponseEntity.noContent().build();
     }

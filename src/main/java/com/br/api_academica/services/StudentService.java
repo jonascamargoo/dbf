@@ -10,6 +10,7 @@ import com.br.api_academica.repositories.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class StudentService {
@@ -27,7 +28,7 @@ public class StudentService {
         return studentMapper.toDTOList(students);
     }
 
-    public StudentDTO getStudentById(Long id) {
+    public StudentDTO getStudentById(UUID id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + id));
         return studentMapper.toDTO(student);
@@ -39,7 +40,7 @@ public class StudentService {
         return studentMapper.toDTO(newStudent);
     }
 
-    public StudentDTO updateStudent(Long id, StudentDTO studentDetailsDTO) {
+    public StudentDTO updateStudent(UUID id, StudentDTO studentDetailsDTO) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + id));
 
@@ -50,7 +51,7 @@ public class StudentService {
         return studentMapper.toDTO(updatedStudent);
     }
 
-    public void deleteStudent(Long id) {
+    public void deleteStudent(UUID id) {
         if (!studentRepository.existsById(id)) {
             throw new EntityNotFoundException("Student not found with id: " + id);
         }
