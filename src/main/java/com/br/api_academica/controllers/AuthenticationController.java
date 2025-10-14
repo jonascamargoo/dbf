@@ -3,7 +3,7 @@ package com.br.api_academica.controllers;
 import com.br.api_academica.domains.Student;
 import com.br.api_academica.dtos.LoginDTO;
 import com.br.api_academica.dtos.LoginResponseDTO;
-import com.br.api_academica.dtos.RegisterDTO;
+import com.br.api_academica.dtos.RegisterResponseDTO;
 import com.br.api_academica.infra.security.TokenService;
 import com.br.api_academica.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginDTO data) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((Student) auth.getPrincipal());
@@ -38,7 +38,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterDTO data) {
+    public ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterResponseDTO data) {
         if (this.studentRepository.findByLogin(data.login()) != null) {
             return ResponseEntity.badRequest().build();
         }
