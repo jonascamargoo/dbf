@@ -1,0 +1,21 @@
+services:
+  postgres-db:
+    # ... (configuração do banco)
+    environment:
+      POSTGRES_DB: academica_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    # ...
+
+  api-academica:
+    # ... (configuração da api)
+    env_file:
+      - .env 
+    environment:
+      # O Docker injeta as variáveis com o nome que o Spring espera
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/academica_db
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      API_SECRET: ${API_SECRET} # <-- Passa a chave secreta para o properties
+    depends_on:
+      # ... (healthcheck)
